@@ -14,11 +14,11 @@ Install-Module OSD -Force
 Write-Host  -ForegroundColor Cyan "Importing OSD PowerShell Module"
 Import-Module OSD -Force
 
-#TODO: Spend the time to write a function to do this and put it here
+#Eject ISO
 Write-Host  -ForegroundColor Cyan "Ejecting ISO"
-(new-object -COM Shell.Application).NameSpace(17).ParseName('D:').InvokeVerb('Eject')
-#Write-Warning "That didn't work because I haven't coded it yet!"
-#Start-Sleep -Seconds 5
+$DeviceID = (Get-CimInstance Win32_LogicalDisk | ?{ $_.DriveType -eq 5}).DeviceID
+(new-object -COM Shell.Application).NameSpace(17).ParseName($DeviceID).InvokeVerb('Eject')
+Start-Sleep -Seconds 5
 
 #Start OSDCloud ZTI the RIGHT way
 Write-Host  -ForegroundColor Cyan "Start OSDCloud with MY Parameters"
